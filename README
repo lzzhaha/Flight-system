@@ -1,0 +1,2 @@
+Implement a flight management system using C.
+It keeps track of the flights between a series of airports. The flight system, represented by the struct flightSys_t, will hold all the airports in this system. Each airport, represented by the struct airport_t, will hold both its name (as a string) and a schedule of all the flights departing from it.
