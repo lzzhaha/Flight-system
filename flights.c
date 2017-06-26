@@ -214,7 +214,7 @@ bool getNextFlight(airport_t* src, airport_t* dst, timeHM_t* now, timeHM_t* depa
 	int cheapest;
 	bool found = false;
 
-	while (search != NULL && found == false){ //find the first good flight
+	while (search != NULL && found == false){ //find the first matched flight
 		if (!strcmp(search->destination->name,dst->name)){ //check if the destination matches
 			if(isAfter(&(search->departure_time), now)){ //check if the time is good
 				//update local variables
@@ -233,13 +233,13 @@ bool getNextFlight(airport_t* src, airport_t* dst, timeHM_t* now, timeHM_t* depa
 	}
 
 	while(search != NULL){ //find the most ideal one
-		if (!strcmp(search->destination->name,dst->name)){ //check if the destination matches
-			if(isAfter(&(search->departure_time), now)){ //check if the time is good
+		if (!strcmp(search->destination->name,dst->name)){
+			if(isAfter(&(search->departure_time), now)){ //check if the time is after now
 				if((search->cost) < cheapest){ //check if it's the cheapest
 					//update local variables
 					earliest = search->arrival_time;
 					cheapest = search->cost;
-					found = true;
+					
 				
 					//update return values
 					*departure = search->departure_time;
@@ -247,17 +247,14 @@ bool getNextFlight(airport_t* src, airport_t* dst, timeHM_t* now, timeHM_t* depa
 					*cost = search->cost;
 				}
 				else if((search->cost) == cheapest && isAfter(&earliest, &(search->arrival_time))){ 
-					//if the price is equal, find the earliest
+					//if the price is equal, find the  flight with earliest arrival time
 					
 					//update local variables
 					earliest = search->arrival_time;
-					cheapest = search->cost;
-					found = true;
-				
+					
 					//update return values
 					*departure = search->departure_time;
 					*arrival = search->arrival_time;
-					*cost = search->cost;
 				}
 			}
 		}
